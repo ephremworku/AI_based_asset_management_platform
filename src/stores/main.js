@@ -17,6 +17,7 @@ export const useMainStore = defineStore('main', () => {
   const isFieldFocusRegistered = ref(false)
 
   const clients = ref([])
+  const assets = ref([])
   const history = ref([])
 
   function setUser(payload) {
@@ -49,6 +50,16 @@ export const useMainStore = defineStore('main', () => {
         alert(error.message)
       })
   }
+  function fetchAssetsProperty() {
+    axios
+      .get(`data-sources/assetProperty.json?v=2`)
+      .then((result) => {
+        assets.value = result?.data?.data
+      })
+      .catch((error) => {
+        alert(error.message)
+      })
+    }
 
   return {
     userName,
@@ -57,8 +68,10 @@ export const useMainStore = defineStore('main', () => {
     isFieldFocusRegistered,
     clients,
     history,
+    assets,
     setUser,
     fetchSampleClients,
-    fetchSampleHistory
+    fetchSampleHistory,
+    fetchAssetsProperty
   }
 })

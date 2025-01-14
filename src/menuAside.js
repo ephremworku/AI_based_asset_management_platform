@@ -21,12 +21,17 @@ export default [
   },
   {
     to: '/tables',
-    label: 'Tables',
+    label: 'Assets',
+    icon: mdiTable
+  },
+  {
+    to: '/maintenance',
+    label: 'Maintenance',
     icon: mdiTable
   },
   {
     to: '/forms',
-    label: 'Forms',
+    label: 'Enter New Asset',
     icon: mdiSquareEditOutline
   },
   {

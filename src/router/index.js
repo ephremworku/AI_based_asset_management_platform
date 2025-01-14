@@ -31,6 +31,14 @@ const routes = [
   },
   {
     meta: {
+      title: 'Maintenance'
+    },
+    path: '/maintenance',
+    name: 'maintenance',
+    component: () => import('@/views/MaintenanceView.vue')
+  },
+  {
+    meta: {
       title: 'Forms'
     },
     path: '/forms',

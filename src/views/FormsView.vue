@@ -14,6 +14,7 @@ import SectionTitle from '@/components/SectionTitle.vue'
 import LayoutAuthenticated from '@/layouts/LayoutAuthenticated.vue'
 import SectionTitleLineWithButton from '@/components/SectionTitleLineWithButton.vue'
 import NotificationBarInCard from '@/components/NotificationBarInCard.vue'
+import axios from 'axios'
 
 const selectOptions = [
   { id: 1, label: 'Business development' },
@@ -29,6 +30,13 @@ const form = reactive({
   subject: '',
   question: ''
 })
+const assetForm = reactive({
+  assetModel: 'Model Name',
+  originalValue: 0,
+  acquisitionDate: '0000-00-00',
+  nonDepreciableValue: 0,
+  bookValue: 0
+})
 
 const customElementsForm = reactive({
   checkbox: ['lorem'],
@@ -37,9 +45,30 @@ const customElementsForm = reactive({
   file: null
 })
 
+// const submit = () => {
+//   console.log('submit pressed')
+//   //
+// }
+
+
 const submit = () => {
-  //
-}
+  axios
+    .post(`http://localhost:3000/data/`, {
+      assetModel: assetForm.assetModel,
+      originalValue: assetForm.originalValue,
+      acquisitionDate: assetForm.acquisitionDate,
+      nonDepreciableValue: assetForm.nonDepreciableValue,
+      bookValue: assetForm.bookValue,
+    })
+    .then((response) => {
+      console.log('Data successfully updated:', response.data);
+      alert('Asset data updated successfully!');
+    })
+    .catch((error) => {
+      console.error('Error updating data:', error);
+      alert('Failed to update asset data: ' + error.message);
+    });
+};
 
 const formStatusWithHeader = ref(true)
 
@@ -57,39 +86,45 @@ const formStatusSubmit = () => {
 <template>
   <LayoutAuthenticated>
     <SectionMain>
-      <SectionTitleLineWithButton :icon="mdiBallotOutline" title="Forms example" main>
+      <SectionTitleLineWithButton :icon="mdiBallotOutline" title="Insert Asset Information" main>
         <BaseButton
           href="https://github.com/justboil/admin-one-vue-tailwind"
           target="_blank"
           :icon="mdiGithub"
-          label="Star on GitHub"
+          label="Add Asset"
           color="contrast"
           rounded-full
           small
         />
       </SectionTitleLineWithButton>
       <CardBox form @submit.prevent="submit">
-        <FormField label="Grouped with icons">
-          <FormControl v-model="form.name" :icon="mdiAccount" />
-          <FormControl v-model="form.email" type="email" :icon="mdiMail" />
+        <FormField label="Asset Model Information">
+          <FormControl v-model="assetForm.assetModel" :icon="mdiAccount" />
+        </FormField>
+        <FormField label="Acquisition Date">
+          <FormControl v-model="assetForm.acquisitionDate" type="date" :icon="mdiMail" />
         </FormField>
 
-        <FormField label="With help line" help="Do not enter the leading zero">
-          <FormControl v-model="form.phone" type="tel" placeholder="Your phone number" />
+        <FormField label="Original Value" help="Enter different than zero">
+          <FormControl v-model="assetForm.originalValue" type="number" placeholder="Asset Original Value" />
+        </FormField>
+        <FormField label="Asset Book Value" help="Enter current asset value">
+          <FormControl v-model="assetForm.bookValue" type="number" placeholder="Asset Book Value" />
         </FormField>
 
-        <FormField label="Dropdown">
+        <!-- <FormField label="Dropdown">
           <FormControl v-model="form.department" :options="selectOptions" />
-        </FormField>
+        </FormField> -->
 
         <BaseDivider />
 
-        <FormField label="Question" help="Your question. Max 255 characters">
+        <!-- <FormField label="Question" help="Your question. Max 255 characters">
           <FormControl type="textarea" placeholder="Explain how we can help you" />
-        </FormField>
+        </FormField> -->
 
         <template #footer>
           <BaseButtons>
+            <button  @click="submit"  type="submit">Submit</button>
             <BaseButton type="submit" color="info" label="Submit" />
             <BaseButton type="reset" color="info" outline label="Reset" />
           </BaseButtons>
@@ -97,7 +132,7 @@ const formStatusSubmit = () => {
       </CardBox>
     </SectionMain>
 
-    <SectionTitle>Custom elements</SectionTitle>
+    <!-- <SectionTitle>Custom elements</SectionTitle>
 
     <SectionMain>
       <CardBox>
@@ -165,6 +200,6 @@ const formStatusSubmit = () => {
           <BaseButton label="Trigger" type="submit" color="info" />
         </template>
       </CardBox>
-    </SectionMain>
+    </SectionMain> -->
   </LayoutAuthenticated>
 </template>
