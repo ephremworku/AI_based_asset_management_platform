@@ -1,13 +1,14 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useMainStore } from '@/stores/main'
-import { mdiEye, mdiTrashCan } from '@mdi/js'
+import { mdiEye, mdiTrashCan, mdiChartLine } from '@mdi/js'
 import CardBoxModal from '@/components/CardBoxModal.vue'
 import TableCheckboxCell from '@/components/TableCheckboxCell.vue'
 import BaseLevel from '@/components/BaseLevel.vue'
 import BaseButtons from '@/components/BaseButtons.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import UserAvatar from '@/components/UserAvatar.vue'
+import { useRouter } from 'vue-router';
 
 defineProps({
   checkable: Boolean
@@ -33,6 +34,11 @@ const itemsPaginated = computed(() =>
 assetsProperty.value.slice(perPage.value * currentPage.value, perPage.value * (currentPage.value + 1))
 )
 
+const router = useRouter();
+
+function navigateToAnalysis(assetModel) {
+  router.push({ name: 'analysis', params: { assetModel: `${assetModel}` } })
+  ;}
 const numPages = computed(() => Math.ceil(assetsProperty.value.length / perPage.value))
 
 const currentPageHuman = computed(() => currentPage.value + 1)
@@ -90,6 +96,7 @@ console.log(itemsPaginated.value)
         <th>acquisitionDate</th>
         <th>nonDepreciableValue</th>
         <th>bookValue</th>
+        <th>Analysis</th>
         <th />
       </tr>
     </thead>
@@ -120,12 +127,12 @@ console.log(itemsPaginated.value)
         </td>
         <td class="before:hidden lg:w-1 whitespace-nowrap">
           <BaseButtons type="justify-start lg:justify-end" no-wrap>
-            <BaseButton color="info" :icon="mdiEye" small @click="isModalActive = true" />
+            <!-- <BaseButton color="info" :icon="mdiEye" small @click="isModalActive = true" /> -->
             <BaseButton
               color="danger"
-              :icon="mdiTrashCan"
+              :icon="mdiChartLine"
               small
-              @click="isModalDangerActive = true"
+              @click="navigateToAnalysis(client.assetModel)"
             />
           </BaseButtons>
         </td>

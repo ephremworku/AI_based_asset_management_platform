@@ -39,6 +39,14 @@ const routes = [
   },
   {
     meta: {
+      title: 'Analysis'
+    },
+    path: '/analysis/:assetModel',
+    name: 'analysis',
+    component: () => import('@/views/csvImportAndAnalysis.vue')
+  },
+  {
+    meta: {
       title: 'Forms'
     },
     path: '/forms',
