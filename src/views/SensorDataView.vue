@@ -15,7 +15,7 @@ const router = useRouter();
 
 const mainStore = useMainStore()
 const items = computed(() => mainStore.clients)
-
+const getAssetModel = computed(() => `Asset ${route.query.assetModel} Information`)
 // ✅ Fix: Use ref to store the asset data from API response
 const assetsProperty = ref([])
 
@@ -81,7 +81,7 @@ console.log(itemsPaginated.value)
 
 
 <template>
-  <SectionTitleLineWithButton :icon="mdiTableBorder" title="Sensor Data" main>
+  <SectionTitleLineWithButton :icon="mdiTableBorder" :title="getAssetModel" main>
         <BaseButton
           href="https://github.com/justboil/admin-one-vue-tailwind"
           target="_blank"

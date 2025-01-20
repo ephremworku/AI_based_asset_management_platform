@@ -1,10 +1,11 @@
 <template>
+
   <div class="csv-import">
     <h2>Import CSV File</h2>
     <input type="file" @change="handleFileUpload" accept=".csv" />
     <div v-if="csvData.length">
       <h3>CSV Data</h3>
-      <button @click="visualizeData">Visualize</button>
+      <button @click="visualizeData">Feature Engineer</button>
       <table v-if="!showGraphs">
         <thead>
           <tr>
@@ -22,7 +23,7 @@
       <h3>Graphs</h3>
       <!-- Selection Buttons -->
       <div class="selection-container">
-        <h4>Select Columns for Visualization</h4>
+        <h4>Select relevant parameters for input</h4>
         <div v-for="(column, index) in numericColumns" :key="index" class="selection-button">
           <input type="checkbox" v-model="column.selected" :id="'col-' + index" />
           <label :for="'col-' + index">{{ column.name }}</label>
@@ -71,6 +72,7 @@
 import { ref, reactive } from 'vue';
 import { Line } from 'vue-chartjs';
 import { useRoute } from 'vue-router';
+import SectionTitleLineWithButton from '@/components/SectionTitleLineWithButton.vue'
 import axios from 'axios';
 import {
   Chart as ChartJS,
@@ -84,6 +86,8 @@ import {
 } from 'chart.js';
 import { data } from 'autoprefixer';
 import { useRouter } from 'vue-router';
+import BaseButton from '@/components/BaseButton.vue'
+import { mdiEye, mdiTrashCan, mdiChartLine, mdiTableBorder, mdiGithub,mdiTable } from '@mdi/js'
 
 ChartJS.register(
   Title,

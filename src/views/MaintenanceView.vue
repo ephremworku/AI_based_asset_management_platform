@@ -1,5 +1,5 @@
 <script setup>
-import { mdiMonitorCellphone, mdiTableBorder, mdiTableOff, mdiGithub } from '@mdi/js'
+import { mdiMonitorCellphone, mdiTableBorder, mdiTableOff, mdiGithub, mdiRobot } from '@mdi/js'
 import SectionMain from '@/components/SectionMain.vue'
 import NotificationBar from '@/components/NotificationBar.vue'
 import TableSampleClientsMaintenance from '@/components/TableSampleClientsMaintenance.vue'
@@ -15,9 +15,9 @@ import CardBoxComponentEmpty from '@/components/CardBoxComponentEmpty.vue'
     <SectionMain>
       <SectionTitleLineWithButton :icon="mdiTableBorder" title="Maintenance History" main>
         <BaseButton
-          href="https://github.com/justboil/admin-one-vue-tailwind"
-          target="_blank"
-          :icon="mdiGithub"
+        to="/forms"
+          
+          :icon="mdiRobot"
           label="Add an Asset"
           color="contrast"
           rounded-full
