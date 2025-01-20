@@ -31,7 +31,7 @@ export default [
   },
   {
     to: '/forms',
-    label: 'Enter New Asset',
+    label: 'New Asset',
     icon: mdiSquareEditOutline
   },
   {

@@ -52,13 +52,24 @@ export const useMainStore = defineStore('main', () => {
   }
   function fetchAssetsProperty() {
     axios
-      .get(`data-sources/assetProperty.json?v=2`)
+      .get(`http://localhost:5000/get_assets`)
       .then((result) => {
-        assets.value = result?.data?.data
+        // console.log(`the new data from the api ${result.data}`)
+        console.log(result.data)
+        assets.value = result.data
       })
       .catch((error) => {
         alert(error.message)
       })
+    // axios
+    //   .get(`data-sources/assetProperty.json?v=2`)
+    //   .then((result) => {
+    //     console.log(result?.data?.data)
+    //     assets.value = result?.data?.data
+    //   })
+    //   .catch((error) => {
+    //     alert(error.message)
+    //   })
     }
 
   return {

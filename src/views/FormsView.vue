@@ -15,6 +15,9 @@ import LayoutAuthenticated from '@/layouts/LayoutAuthenticated.vue'
 import SectionTitleLineWithButton from '@/components/SectionTitleLineWithButton.vue'
 import NotificationBarInCard from '@/components/NotificationBarInCard.vue'
 import axios from 'axios'
+import { useRouter } from 'vue-router';
+const router = useRouter();
+
 
 const selectOptions = [
   { id: 1, label: 'Business development' },
@@ -52,22 +55,45 @@ const customElementsForm = reactive({
 
 
 const submit = () => {
-  axios
-    .post(`http://localhost:3000/data/`, {
-      assetModel: assetForm.assetModel,
-      originalValue: assetForm.originalValue,
-      acquisitionDate: assetForm.acquisitionDate,
-      nonDepreciableValue: assetForm.nonDepreciableValue,
-      bookValue: assetForm.bookValue,
-    })
-    .then((response) => {
-      console.log('Data successfully updated:', response.data);
-      alert('Asset data updated successfully!');
-    })
-    .catch((error) => {
-      console.error('Error updating data:', error);
-      alert('Failed to update asset data: ' + error.message);
-    });
+
+  const updateFile = {
+    asset_model: assetForm.assetModel,
+    original_value: assetForm.originalValue,
+    acquisition_date: assetForm.acquisitionDate,
+    non_depreciable_value: assetForm.nonDepreciableValue,
+    book_value: assetForm.bookValue,
+    };
+
+    console.log("Sending Data:", JSON.stringify(updateFile, null, 2));
+
+    axios
+        .post("http://localhost:5000/add_assets", updateFile, {
+            headers: { "Content-Type": "application/json" }
+        })
+        .then((result) => {
+          router.push({ path: '/tables'});
+            console.log("Response:", result.data);
+        })
+        .catch((error) => {
+            console.error("Error:", error.response?.data || error.message);
+            alert("Error: " + (error.response?.data?.error || error.message));
+        });
+  // axios
+  //   .post(`http://localhost:3000/data/`, {
+  //     assetModel: assetForm.assetModel,
+  //     originalValue: assetForm.originalValue,
+  //     acquisitionDate: assetForm.acquisitionDate,
+  //     nonDepreciableValue: assetForm.nonDepreciableValue,
+  //     bookValue: assetForm.bookValue,
+  //   })
+  //   .then((response) => {
+  //     console.log('Data successfully updated:', response.data);
+  //     alert('Asset data updated successfully!');
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error updating data:', error);
+  //     alert('Failed to update asset data: ' + error.message);
+  //   });
 };
 
 const formStatusWithHeader = ref(true)
@@ -87,7 +113,7 @@ const formStatusSubmit = () => {
   <LayoutAuthenticated>
     <SectionMain>
       <SectionTitleLineWithButton :icon="mdiBallotOutline" title="Insert Asset Information" main>
-        <BaseButton
+        <!-- <BaseButton
           href="https://github.com/justboil/admin-one-vue-tailwind"
           target="_blank"
           :icon="mdiGithub"
@@ -95,7 +121,7 @@ const formStatusSubmit = () => {
           color="contrast"
           rounded-full
           small
-        />
+        /> -->
       </SectionTitleLineWithButton>
       <CardBox form @submit.prevent="submit">
         <FormField label="Asset Model Information">

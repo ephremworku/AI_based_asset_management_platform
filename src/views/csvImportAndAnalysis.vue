@@ -71,6 +71,7 @@
 import { ref, reactive } from 'vue';
 import { Line } from 'vue-chartjs';
 import { useRoute } from 'vue-router';
+import axios from 'axios';
 import {
   Chart as ChartJS,
   Title,
@@ -81,6 +82,8 @@ import {
   LinearScale,
   PointElement
 } from 'chart.js';
+import { data } from 'autoprefixer';
+import { useRouter } from 'vue-router';
 
 ChartJS.register(
   Title,
@@ -113,18 +116,43 @@ export default {
         title: { display: true, text: 'Graph' }
       }
     });
+    const router = useRouter();
 
     function submitSelection() {
-      const selectedColumns = numericColumns.filter((column) => column.selected);
-      const targetColumn = selectedColumns.find((column) => column.name === targetParameter.value);
+    const selectedColumns = numericColumns.filter((column) => column.selected);
+    const targetColumn = selectedColumns.find((column) => column.name === targetParameter.value);
 
-      if (targetColumn) {
-        console.log("Target Parameter:", targetColumn.name);
-        console.log("Asset Model is:", assetModel);
-      } else {
-        console.log("Target parameter is not inside selected items.");
-      }
+    if (!targetColumn) {
+        alert("Target parameter must be within selected columns.");
+        return;
     }
+
+    const updateFile = {
+        data: selectedColumns,      // ✅ Keep this (matches API)
+        machine_model: assetModel,  // 🔄 Rename assetModel → machine_model
+        target_column: targetColumn.name // 🔄 Rename targetColumn → target_column (use .name)
+    };
+
+    console.log("Sending Data:", JSON.stringify(updateFile, null, 2));
+
+    axios
+        .post("http://localhost:5000/train_model", updateFile, {
+            headers: { "Content-Type": "application/json" }
+        })
+        .then((result) => {
+          if(result.data["message"] == "Model trained and saved successfully"){
+            router.push({ path: '/SensorDataView', query: { assetModel: `${assetModel}` } });
+            console.log("Asset found in the database")
+          }
+            console.log("Response:", result.data);
+
+        })
+        .catch((error) => {
+            console.error("Error:", error.response?.data || error.message);
+            alert("Error: " + (error.response?.data?.error || error.message));
+        });
+}
+
 
     function handleFileUpload(event) {
       const file = event.target.files[0];

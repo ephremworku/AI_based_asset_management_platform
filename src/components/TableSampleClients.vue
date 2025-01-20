@@ -17,7 +17,7 @@ const mainStore = useMainStore()
 
 const items = computed(() => mainStore.clients)
 const assetsProperty = computed(() => mainStore.assets)
-console.log(assetsProperty.value)
+// console.log(assetsProperty.value)
 
 const isModalActive = ref(false)
 
@@ -66,7 +66,7 @@ const checked = (isChecked, client) => {
     checkedRows.value = remove(checkedRows.value, (row) => row.id === client.id)
   }
 }
-console.log(itemsPaginated.value)
+// console.log(itemsPaginated.value)
 </script>
 
 <template>
@@ -120,7 +120,7 @@ console.log(itemsPaginated.value)
         </td>
         <td class="before:hidden lg:w-1 whitespace-nowrap">
           <BaseButtons type="justify-start lg:justify-end" no-wrap>
-            <BaseButton color="info" :icon="mdiEye" small @click="isModalActive = true" />
+            <!-- <BaseButton color="info" :icon="mdiEye" small @click="isModalActive = true" /> -->
             <BaseButton
               color="danger"
               :icon="mdiTrashCan"

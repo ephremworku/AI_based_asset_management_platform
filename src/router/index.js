@@ -41,9 +41,17 @@ const routes = [
     meta: {
       title: 'Analysis'
     },
-    path: '/analysis/:assetModel',
+    path: '/analysis',
     name: 'analysis',
     component: () => import('@/views/csvImportAndAnalysis.vue')
+  },
+  {
+    meta: {
+      title: 'SensorDataView'
+    },
+    path: '/sensordataview',
+    name: 'sensordataview',
+    component: () => import('@/views/SensorDataView.vue')
   },
   {
     meta: {

@@ -29,7 +29,7 @@ import CardBoxComponentEmpty from '@/components/CardBoxComponentEmpty.vue'
       </NotificationBar>
 
       <CardBox class="mb-6" has-table>
-        <TableSampleClientsMaintenance checkable />
+        <TableSampleClientsMaintenance />
       </CardBox>
 
       <SectionTitleLineWithButton :icon="mdiTableOff" title="Empty variation" />

@@ -9,6 +9,7 @@ import BaseButtons from '@/components/BaseButtons.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import UserAvatar from '@/components/UserAvatar.vue'
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 defineProps({
   checkable: Boolean
@@ -37,7 +38,29 @@ assetsProperty.value.slice(perPage.value * currentPage.value, perPage.value * (c
 const router = useRouter();
 
 function navigateToAnalysis(assetModel) {
-  router.push({ name: 'analysis', params: { assetModel: `${assetModel}` } })
+    const updateFile = {
+      asset_model: assetModel
+    };
+  axios
+        .post("http://localhost:5000/sensor_data/asset", updateFile, {
+            headers: { "Content-Type": "application/json" }
+        })
+        .then((result) => {
+          console.log(result.data)
+          if (result.data["status"] == "Asset Not Found") {
+            router.push({ path: '/analysis', query: { assetModel: `${assetModel}` } });
+          }else{
+            router.push({ path: '/SensorDataView', query: { assetModel: `${assetModel}` } });
+            console.log("Asset found in the database")
+          }
+            console.log("Response:", result.data);
+        })
+        .catch((error) => {
+            console.error("Error:", error.response?.data || error.message);
+            alert("Error: " + (error.response?.data?.error || error.message));
+        });
+  
+
   ;}
 const numPages = computed(() => Math.ceil(assetsProperty.value.length / perPage.value))
 
@@ -102,9 +125,9 @@ console.log(itemsPaginated.value)
     </thead>
     <tbody>
       <tr v-for="client in itemsPaginated" :key="client.id">
-        <TableCheckboxCell v-if="checkable" @checked="checked($event, client)" />
+        <TableCheckboxCell v-if="false" @checked="checked($event, client)" />
         <td class="border-b-0 lg:w-6 before:hidden">
-          <UserAvatar username="Howell Hand" class="w-24 h-24 mx-auto lg:w-6 lg:h-6" />
+          <UserAvatar username="" class="w-24 h-24 mx-auto lg:w-6 lg:h-6" />
         </td>
         <td data-label="Asset Model">
           {{ client.assetModel }}
