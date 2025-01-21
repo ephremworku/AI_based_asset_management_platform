@@ -1,66 +1,114 @@
 <template>
 
   <div class="csv-import">
-    <h2>Import CSV File</h2>
-    <input type="file" @change="handleFileUpload" accept=".csv" />
-    <div v-if="csvData.length">
-      <h3>CSV Data</h3>
-      <button @click="visualizeData">Feature Engineer</button>
-      <table v-if="!showGraphs">
+    <!-- <SectionTitleLineWithButton :icon="mdiTableBorder" title="Maintenance History" main>
+        <BaseButton
+        to="/forms"
+          
+          :icon="mdiRobot"
+          label="Add an Asset"
+          color="contrast"
+          rounded-full
+          small
+        />
+      </SectionTitleLineWithButton> -->
+      <div class="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+        <div class="flex justify-between items-center relative">
+  <h2 class="text-2xl font-semibold text-gray-800">Import CSV File</h2>
+  <div class="relative group">
+  <span class="text-white bg-red-600 px-2 py-1 rounded-full text-xs font-bold cursor-pointer transition-transform transform group-hover:scale-110">
+    !
+  </span>
+  <div class="absolute right-0 mt-2 w-64 bg-gray-800 text-white text-sm p-2 rounded shadow-lg opacity-0 group-hover:opacity-100 transition">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi.
+  </div>
+</div>
+</div>
+
+  
+  <label class="block w-full cursor-pointer border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-500 transition">
+    <span class="text-gray-600">Click to upload CSV</span>
+    <input type="file" @change="handleFileUpload" accept=".csv" class="hidden" />
+  </label>
+  
+    <div v-if="csvData.length" class="mt-6">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-medium text-gray-700">CSV Data View</h3>
+        <button @click="visualizeData" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+          Feature Engineer
+        </button>
+    </div>
+
+
+    <div class="overflow-x-auto mt-4">
+      <table v-if="!showGraphs" class="w-full border-collapse border border-gray-200 shadow-md">
         <thead>
-          <tr>
-            <th v-for="(header, index) in headers" :key="index">{{ header }}</th>
+          <tr class="bg-gray-100">
+            <th v-for="(header, index) in headers" :key="index" class="px-4 py-2 border border-gray-300 text-left">
+              {{ header }}
+            </th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(row, rowIndex) in csvData" :key="rowIndex">
-            <td v-for="(cell, cellIndex) in row" :key="cellIndex">{{ cell }}</td>
+          <tr v-for="(row, rowIndex) in csvData" :key="rowIndex" class="hover:bg-gray-50">
+            <td v-for="(cell, cellIndex) in row" :key="cellIndex" class="px-4 py-2 border border-gray-300">
+              {{ cell }}
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
+  </div>
+</div>
+
     <div v-if="showGraphs">
-      <h3>Graphs</h3>
-      <!-- Selection Buttons -->
-      <div class="selection-container">
-        <h4>Select relevant parameters for input</h4>
-        <div v-for="(column, index) in numericColumns" :key="index" class="selection-button">
-          <input type="checkbox" v-model="column.selected" :id="'col-' + index" />
-          <label :for="'col-' + index">{{ column.name }}</label>
+      <h3 class="text-2xl font-semibold text-gray-800 mb-4">Graphs</h3>
+
+
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+          <h4 class="text-lg font-medium text-gray-700 mb-2">Select relevant parameters for input</h4>
+          <div class="flex flex-wrap gap-4">
+            <div v-for="(column, index) in numericColumns" :key="index" class="flex items-center gap-2">
+              <input type="checkbox" v-model="column.selected" :id="'col-' + index" class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
+              <label :for="'col-' + index" class="text-gray-700">{{ column.name }}</label>
+            </div>
+          </div>
+
+          <h4 class="text-lg font-medium text-gray-700 mt-4 mb-2">Select Target Parameter</h4>
+          <div class="flex flex-wrap gap-4">
+            <div v-for="(column, index) in numericColumns" :key="'radio-' + index" class="flex items-center gap-2">
+              <input type="radio" v-model="targetParameter" :value="column.name" :id="'radio-' + index" class="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500" />
+              <label :for="'radio-' + index" class="text-gray-700">{{ column.name }}</label>
+            </div>
+          </div>
+
+          <button @click="submitSelection" class="mt-4 w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition" style="width: 3cm;">
+            Submit
+          </button>
         </div>
-        <h4>Select Target Parameter</h4>
-        <div v-for="(column, index) in numericColumns" :key="'radio-' + index" class="radio-button">
-          <input type="radio" v-model="targetParameter" :value="column.name" :id="'radio-' + index" />
-          <label :for="'radio-' + index">{{ column.name }}</label>
-        </div>
-        <button @click="submitSelection">Submit</button>
-      </div>
-  <div v-for="(column, index) in numericColumns" :key="index" class="graph-row">
-  <h4>{{ column.name }}</h4>
-  <div class="graph-container">
-    <div>
-      <h5>Time-Domain</h5>
-      <LineChart
-        :data="getTimeDomainData(column)"
-        :options="chartOptions"
-      />
+
+
+        <div v-for="(column, index) in numericColumns" :key="index" class="bg-white p-6 rounded-lg shadow-lg mb-6">
+  <h4 class="text-xl font-semibold text-gray-800 mb-4">{{ column.name }}</h4>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="p-4 bg-gray-100 rounded-lg shadow-md">
+      <h5 class="text-lg font-medium text-gray-700 mb-2">Time-Domain</h5>
+      <LineChart :data="getTimeDomainData(column)" :options="chartOptions" />
     </div>
-    <div>
-      <h5>Frequency-Domain</h5>
-      <LineChart
-        :data="getFrequencyDomainData(column)"
-        :options="chartOptions"
-      />
+
+    <div class="p-4 bg-gray-100 rounded-lg shadow-md">
+      <h5 class="text-lg font-medium text-gray-700 mb-2">Frequency-Domain</h5>
+      <LineChart :data="getFrequencyDomainData(column)" :options="chartOptions" />
     </div>
-    <div>
-      <h5>Time-Frequency Domain</h5>
-      <LineChart
-        :data="getTimeFrequencyDomainData(column)"
-        :options="chartOptions"
-      />
+
+    <div class="p-4 bg-gray-100 rounded-lg shadow-md">
+      <h5 class="text-lg font-medium text-gray-700 mb-2">Time-Frequency Domain</h5>
+      <LineChart :data="getTimeFrequencyDomainData(column)" :options="chartOptions" />
     </div>
   </div>
 </div>
+
 
 
     </div>
@@ -72,7 +120,8 @@
 import { ref, reactive } from 'vue';
 import { Line } from 'vue-chartjs';
 import { useRoute } from 'vue-router';
-import SectionTitleLineWithButton from '@/components/SectionTitleLineWithButton.vue'
+import SectionTitleLineWithButton from '@/components/SectionTitleLineWithButton.vue';
+
 import axios from 'axios';
 import {
   Chart as ChartJS,
@@ -101,7 +150,9 @@ ChartJS.register(
 
 export default {
   components: {
-    LineChart: Line
+    LineChart: Line,
+    SectionTitleLineWithButton,
+    BaseButton,
   },
 
   setup() {

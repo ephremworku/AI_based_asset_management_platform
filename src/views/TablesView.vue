@@ -23,6 +23,9 @@ import CardBoxComponentEmpty from '@/components/CardBoxComponentEmpty.vue'
           rounded-full
           small
         />
+        <button @click="visualizeData" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+          Export Report Data
+        </button>
       </SectionTitleLineWithButton>
       <NotificationBar color="info" :icon="mdiMonitorCellphone">
         <b>Responsive table.</b> Collapses on mobile

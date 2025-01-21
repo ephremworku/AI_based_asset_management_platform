@@ -34,11 +34,13 @@ const form = reactive({
   question: ''
 })
 const assetForm = reactive({
-  assetModel: 'Model Name',
-  originalValue: 0,
-  acquisitionDate: '0000-00-00',
-  nonDepreciableValue: 0,
-  bookValue: 0
+  assetModel: null,
+  originalValue: null,
+  acquisitionDate: null,
+  nonDepreciableValue: null,
+  bookValue: null,
+  depreciationRate: null,
+  depreciationTimeInterval: null
 })
 
 const customElementsForm = reactive({
@@ -62,6 +64,8 @@ const submit = () => {
     acquisition_date: assetForm.acquisitionDate,
     non_depreciable_value: assetForm.nonDepreciableValue,
     book_value: assetForm.bookValue,
+    depreciation_rate: assetForm.depreciationRate,
+    depreciation_period: assetForm.depreciationTimeInterval
     };
 
     console.log("Sending Data:", JSON.stringify(updateFile, null, 2));
@@ -122,10 +126,11 @@ const formStatusSubmit = () => {
           rounded-full
           small
         /> -->
+      
       </SectionTitleLineWithButton>
       <CardBox form @submit.prevent="submit">
         <FormField label="Asset Model Information">
-          <FormControl v-model="assetForm.assetModel" :icon="mdiAccount" />
+          <FormControl v-model="assetForm.assetModel" :icon="mdiAccount" placeholder="Asset Model Name"/>
         </FormField>
         <FormField label="Acquisition Date">
           <FormControl v-model="assetForm.acquisitionDate" type="date" :icon="mdiMail" />
@@ -136,6 +141,15 @@ const formStatusSubmit = () => {
         </FormField>
         <FormField label="Asset Book Value" help="Enter current asset value">
           <FormControl v-model="assetForm.bookValue" type="number" placeholder="Asset Book Value" />
+        </FormField>
+        <FormField label="Non-Depreciate Value" help="Enter current asset value">
+          <FormControl v-model="assetForm.nonDepreciableValue" type="number" placeholder="Asset Book Value" />
+        </FormField>
+        <FormField label="Depreciation rate" help="Enter current asset value">
+          <FormControl v-model="assetForm.depreciationRate" type="number" placeholder="Asset Book Value" />
+        </FormField>
+        <FormField label="Depreciation time interval" help="Enter current asset value">
+          <FormControl v-model="assetForm.depreciationTimeInterval" type="number" placeholder="Asset Book Value" />
         </FormField>
 
         <!-- <FormField label="Dropdown">

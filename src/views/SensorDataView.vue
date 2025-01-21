@@ -95,40 +95,43 @@ console.log(itemsPaginated.value)
       <!-- <p>{{ itemsPaginated[0].targetColumn }}</p> -->
 
     
-  <div class="table-container">
-    <table class="styled-table">
-      <thead>
-        <tr>
-          <th />
-          <th
-            v-for="(key, index) in Object.keys(assetsProperty[0].sensorData || {})"
-            :key="index"
-            :class="{ 'target-column': key === itemsPaginated[0].targetColumn }"
-          >
-            {{ key }}
-          </th>
-          <th />
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr v-for="(client, rowIndex) in itemsPaginated" :key="rowIndex">
-          <td class="avatar-cell">
-            <UserAvatar username="User" class="avatar" />
-          </td>
-
-          <td
-            v-for="(value, key) in client.sensorData"
-            :key="key"
-            :data-label="key"
-            :class="{ 'target-column': key === client.targetColumn }"
-          >
-            {{ value }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+      <div class="overflow-x-auto bg-white shadow-md rounded-lg p-4">
+        <table class="w-full border-collapse border border-gray-200 rounded-lg">
+          <thead class="bg-blue-600 text-white">
+            <tr>
+              <!-- <th class="px-4 py-3"></th> -->
+              <th
+                v-for="(key, index) in Object.keys(assetsProperty[0].sensorData || {})"
+                :key="index"
+                :class="{ 'bg-yellow-500 text-black font-bold': key === itemsPaginated[0].targetColumn }"
+                class="px-4 py-3 text-left"
+              >
+                {{ key }}
+              </th>
+              <th class="px-4 py-3"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(client, rowIndex) in itemsPaginated"
+              :key="rowIndex"
+              class="border-b border-gray-200 hover:bg-gray-100 transition"
+            >
+              <!-- <td class="px-4 py-3 flex justify-center">
+                <UserAvatar username="Max" class="w-8 h-8 rounded-full border border-gray-300" />
+              </td> -->
+              <td
+                v-for="(value, key) in client.sensorData"
+                :key="key"
+                :class="{ 'bg-yellow-100 font-semibold': key === client.targetColumn }"
+                class="px-4 py-3 text-gray-700"
+              >
+                {{ value }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
   <div class="p-3 lg:px-6 border-t border-gray-100 dark:border-slate-800">
     <BaseLevel>

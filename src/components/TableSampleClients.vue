@@ -66,6 +66,26 @@ const checked = (isChecked, client) => {
     checkedRows.value = remove(checkedRows.value, (row) => row.id === client.id)
   }
 }
+function calculateAssetValue(acquisitionDate, timeInterval, originalValue, depreciationRate) {
+    const currentDate = new Date();
+    const acquisition = new Date(acquisitionDate);
+    
+    // Calculate the number of years since the acquisition date
+    const yearsElapsed = (currentDate - acquisition) / (1000 * 60 * 60 * 24 * 365);
+    
+    // Calculate the number of full depreciation periods (timeInterval)
+    const periodsElapsed = Math.floor(yearsElapsed / timeInterval);
+    console.log(periodsElapsed)
+    
+    // Calculate the depreciation amount per period
+    const depreciationAmount = originalValue * (depreciationRate / 100) * periodsElapsed;
+    
+    // Calculate the current value of the asset
+    const currentValue = originalValue - depreciationAmount;
+    console.log(depreciationRate)
+    // Ensure the current value doesn't go below zero
+    return Math.max(currentValue, 0);
+}
 // console.log(itemsPaginated.value)
 </script>
 
@@ -105,19 +125,30 @@ const checked = (isChecked, client) => {
         <td data-label="originalValue">
           {{ client.originalValue }}
         </td>
-        <td data-label="originalValue">
-          {{ client.originalValue }}
+        <td data-label="Aquisition Date">
+          {{ client.acquisitionDate }}
+          <!-- {{ client.originalValue }} -->
         </td>
-        <td data-label="bookValue" class="lg:w-32">
+        <td data-label="Non Depreciable Value">
+          {{ client.nonDepreciableValue }}
+          <!-- {{ client.acquisitionDate }} -->
+          <!-- {{ client.originalValue }} -->
+        </td>
+        <td data-label="Book Value" class="lg:w-32">
+          {{ calculateAssetValue(client.acquisitionDate, client.depreciationTimeInterval, client.originalValue, client.depreciationRate) }}
+          <!-- {{ client.acquisitionDate }} -->
+          <!-- {{ client.originalValue }} -->
+        </td>
+        <!-- <td data-label="bookValue" class="lg:w-32">
           <progress class="flex w-2/5 self-center lg:w-full" max="100" :value="client.bookValue">
             {{ client.bookValue }}
           </progress>
-        </td>
-        <td data-label="nonDepreciableValue" class="lg:w-1 whitespace-nowrap">
+        </td> -->
+        <!-- <td data-label="nonDepreciableValue" class="lg:w-1 whitespace-nowrap">
           <small class="text-gray-500 dark:text-slate-400" :title="client.created">{{
             client.nonDepreciableValue
           }}</small>
-        </td>
+        </td> -->
         <td class="before:hidden lg:w-1 whitespace-nowrap">
           <BaseButtons type="justify-start lg:justify-end" no-wrap>
             <!-- <BaseButton color="info" :icon="mdiEye" small @click="isModalActive = true" /> -->

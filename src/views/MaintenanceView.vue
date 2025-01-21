@@ -23,20 +23,21 @@ import CardBoxComponentEmpty from '@/components/CardBoxComponentEmpty.vue'
           rounded-full
           small
         />
+
       </SectionTitleLineWithButton>
-      <NotificationBar color="info" :icon="mdiMonitorCellphone">
+      <!-- <NotificationBar color="info" :icon="mdiMonitorCellphone">
         <b>Responsive table.</b> Collapses on mobile
-      </NotificationBar>
+      </NotificationBar> -->
 
       <CardBox class="mb-6" has-table>
         <TableSampleClientsMaintenance />
       </CardBox>
 
-      <SectionTitleLineWithButton :icon="mdiTableOff" title="Empty variation" />
+      <!-- <SectionTitleLineWithButton :icon="mdiTableOff" title="Empty variation" /> -->
 
-      <NotificationBar color="danger" :icon="mdiTableOff">
+      <!-- <NotificationBar color="danger" :icon="mdiTableOff">
         <b>Empty table.</b> When there's nothing to show
-      </NotificationBar>
+      </NotificationBar> -->
 
       <CardBox>
         <CardBoxComponentEmpty />
