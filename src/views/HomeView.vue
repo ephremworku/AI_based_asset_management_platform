@@ -45,7 +45,7 @@ const transactionBarItems = computed(() => mainStore.history)
   <LayoutAuthenticated>
     <SectionMain>
       <SectionTitleLineWithButton :icon="mdiChartTimelineVariant" title="Overview" main>
-        <BaseButton
+        <!-- <BaseButton
           href="https://github.com/justboil/admin-one-vue-tailwind"
           target="_blank"
           :icon="mdiGithub"
@@ -53,7 +53,7 @@ const transactionBarItems = computed(() => mainStore.history)
           color="contrast"
           rounded-full
           small
-        />
+        /> -->
       </SectionTitleLineWithButton>
 
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 mb-6">
@@ -63,7 +63,7 @@ const transactionBarItems = computed(() => mainStore.history)
           color="text-emerald-500"
           :icon="mdiAccountMultiple"
           :number="512"
-          label="Clients"
+          label="Assets" 
         />
         <CardBoxWidget
           trend="12%"
@@ -110,23 +110,23 @@ const transactionBarItems = computed(() => mainStore.history)
         </div>
       </div>
 
-      <SectionBannerStarOnGitHub class="mt-6 mb-6" />
+      <!-- <SectionBannerStarOnGitHub class="mt-6 mb-6" /> -->
 
-      <SectionTitleLineWithButton :icon="mdiChartPie" title="Trends overview">
+      <!-- <SectionTitleLineWithButton :icon="mdiChartPie" title="Trends overview">
         <BaseButton :icon="mdiReload" color="whiteDark" @click="fillChartData" />
-      </SectionTitleLineWithButton>
+      </SectionTitleLineWithButton> -->
 
-      <CardBox class="mb-6">
+      <!-- <CardBox class="mb-6">
         <div v-if="chartData">
           <line-chart :data="chartData" class="h-96" />
         </div>
-      </CardBox>
+      </CardBox> -->
 
-      <SectionTitleLineWithButton :icon="mdiAccountMultiple" title="Clients" />
+      <SectionTitleLineWithButton :icon="mdiAccountMultiple" title="Assets" />
 
-      <NotificationBar color="info" :icon="mdiMonitorCellphone">
+      <!-- <NotificationBar color="info" :icon="mdiMonitorCellphone">
         <b>Responsive table.</b> Collapses on mobile
-      </NotificationBar>
+      </NotificationBar> -->
 
       <CardBox has-table>
         <TableSampleClients />

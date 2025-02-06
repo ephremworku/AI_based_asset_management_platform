@@ -1,0 +1,42 @@
+# AI-Based Asset Management Platform Instructions
+
+## Prerequisites
+1. Ensure you have Node.js installed.
+2. Install necessary dependencies using `npm install`.
+
+## Setup
+1. Clone the repository:
+   ```
+   git clone <repository-url>
+   ```
+2. Navigate to the project directory:
+   ```
+   cd AI_based_asset_management_platform
+   ```
+
+## Running the Application
+1. Start the development server:
+   ```
+   npm start
+   ```
+2. Open your browser and go to `http://localhost:3000`.
+
+## Building for Production
+1. Build the application:
+   ```
+   npm run build
+   ```
+2. The production-ready files will be in the `dist` directory.
+
+## Testing
+1. Run the tests:
+   ```
+   npm test
+   ```
+
+## Deployment
+1. Deploy the contents of the `dist` directory to your web server or hosting service.
+
+## Additional Notes
+- Ensure you have the necessary environment variables set up. Refer to `.env.example` for required variables.
+- For detailed API documentation, refer to the `docs` directory.
